@@ -9,7 +9,7 @@ public_folder: "/images/uploads" # The src attribute for uploaded media
 collections:
   - name: "jobs" # Used in routes, e.g., /admin/collections/jobs
     label: "Jobs" # Used in the UI
-    folder: "src/contents/jobs" # The path to the folder where the documents are stored
+    folder: "src/content/jobs" # The path to the folder where the documents are stored
     create: true # Allow users to create new documents in this collection
     slug: "{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
     fields: # The fields for each document
