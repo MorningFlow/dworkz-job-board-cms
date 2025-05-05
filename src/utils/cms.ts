@@ -6,7 +6,7 @@ import matter from "gray-matter";
 export async function fetchJobs(): Promise<Job[]> {
   try {
     // Get the list of markdown files from the jobs directory
-    const jobFiles = import.meta.glob('/public/jobs/*.md', { eager: true, as: 'raw' });
+    const jobFiles = import.meta.glob('@/content/jobs/*.md', { eager: true, as: 'raw' });
     
     // Process each file and convert to Job objects
     const jobs = await Promise.all(
