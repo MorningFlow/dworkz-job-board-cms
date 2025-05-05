@@ -19,6 +19,11 @@ const Header = ({ onSearch, onTypeChange, onLocationChange }: HeaderProps) => {
     onSearch(value);
   };
 
+  const handleTypeChange = (value: string) => {
+    // Convert "all" to empty string for filtering logic
+    onTypeChange(value === "all" ? "" : value);
+  };
+
   return (
     <header className="bg-white shadow-md sticky top-0 z-10">
       <div className="max-w-7xl mx-auto px-4 py-4">
@@ -47,12 +52,12 @@ const Header = ({ onSearch, onTypeChange, onLocationChange }: HeaderProps) => {
           </div>
           
           <div className="flex flex-wrap gap-4 w-full sm:w-auto">
-            <Select onValueChange={onTypeChange}>
+            <Select onValueChange={handleTypeChange}>
               <SelectTrigger className="w-full sm:w-[180px]">
                 <SelectValue placeholder="All Types" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Types</SelectItem>
+                <SelectItem value="all">All Types</SelectItem>
                 <SelectItem value="Government">Government</SelectItem>
                 <SelectItem value="Private">Private</SelectItem>
               </SelectContent>
