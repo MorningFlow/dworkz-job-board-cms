@@ -8,3 +8,12 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Netlify CMS configuration
+[dev]
+  framework = "vite"
+  targetPort = 8080
+
+# Identity settings for local development
+[dev.identity]
+  enable = true
