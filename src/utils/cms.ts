@@ -19,10 +19,9 @@ const sampleJobs: Job[] = [
 // This function fetches jobs from Netlify CMS's markdown files
 export async function fetchJobs(): Promise<Job[]> {
   try {
-    // Use raw loader to treat markdown files as strings
+    // Import markdown files with frontmatter support using vite-plugin-markdown
     const jobModules = import.meta.glob('@/content/jobs/*.md', { 
       eager: true,
-      import: 'default',  // This ensures we get the processed content from Vite
     });
     
     console.log("Job modules found:", Object.keys(jobModules).length);
@@ -39,8 +38,9 @@ export async function fetchJobs(): Promise<Job[]> {
       
       console.log("Processing job:", slug);
       
-      // Access the frontmatter from the module (Vite handles this)
-      const data = (module as any)?.attributes || {};
+      // Access the frontmatter from the module
+      // The structure is different with vite-plugin-markdown
+      const data = (module as any).frontmatter || {};
       
       // Debug the data structure
       console.log("Job data for", slug, ":", data);
