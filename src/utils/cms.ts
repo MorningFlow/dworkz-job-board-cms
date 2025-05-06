@@ -19,9 +19,13 @@ const sampleJobs: Job[] = [
 // This function fetches jobs from Netlify CMS's markdown files
 export async function fetchJobs(): Promise<Job[]> {
   try {
-    // In a browser environment, we'll fetch job data from the public directory
-    // We can use import.meta.glob but don't use gray-matter directly
-    const jobModules = import.meta.glob('@/content/jobs/*.md', { eager: true });
+    // Use raw loader to treat markdown files as strings
+    const jobModules = import.meta.glob('@/content/jobs/*.md', { 
+      eager: true,
+      import: 'default',  // This ensures we get the processed content from Vite
+    });
+    
+    console.log("Job modules found:", Object.keys(jobModules).length);
     
     if (!jobModules || Object.keys(jobModules).length === 0) {
       console.warn("No job modules found, using sample data");
@@ -33,8 +37,13 @@ export async function fetchJobs(): Promise<Job[]> {
       // Extract the slug from the file path
       const slug = path.split('/').pop()?.replace('.md', '') || '';
       
+      console.log("Processing job:", slug);
+      
       // Access the frontmatter from the module (Vite handles this)
-      const data = (module as any).frontmatter || (module as any).default?.attributes || {};
+      const data = (module as any)?.attributes || {};
+      
+      // Debug the data structure
+      console.log("Job data for", slug, ":", data);
       
       // Convert to Job type
       return {
@@ -56,6 +65,8 @@ export async function fetchJobs(): Promise<Job[]> {
       console.warn("No jobs parsed correctly, using sample data");
       return sampleJobs;
     }
+    
+    console.log("Total jobs parsed:", jobs.length);
     
     // Sort jobs by createdAt date, newest first
     return jobs.sort((a, b) => {
