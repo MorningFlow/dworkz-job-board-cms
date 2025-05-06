@@ -37,10 +37,26 @@ export async function fetchJobs(): Promise<Job[]> {
       const slug = path.split('/').pop()?.replace('.md', '') || '';
       
       console.log("Processing job:", slug);
+      console.log("Module content:", module);
       
-      // Access the frontmatter data from the module
-      // vite-plugin-markdown exposes data as attributes or frontmatter
-      const data = (module as any).attributes || (module as any).frontmatter || {};
+      // Various ways that vite-plugin-markdown could expose the data
+      let data: any = {};
+      
+      if ((module as any).default) {
+        console.log("Module has default export");
+        data = (module as any).default;
+      }
+      
+      if ((module as any).attributes) {
+        console.log("Module has attributes");
+        data = (module as any).attributes;
+      } else if ((module as any).frontmatter) {
+        console.log("Module has frontmatter");
+        data = (module as any).frontmatter;
+      } else {
+        // If the module itself is the data
+        data = module;
+      }
       
       // Debug the data structure
       console.log("Job data for", slug, ":", data);
@@ -67,6 +83,7 @@ export async function fetchJobs(): Promise<Job[]> {
     }
     
     console.log("Total jobs parsed:", jobs.length);
+    console.log("Parsed jobs data:", jobs);
     
     // Sort jobs by createdAt date, newest first
     return jobs.sort((a, b) => {
