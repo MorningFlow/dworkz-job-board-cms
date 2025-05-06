@@ -3,7 +3,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
-import markdown from "vite-plugin-markdown";
+import { plugin as markdown } from "vite-plugin-markdown";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     markdown({ 
-      mode: ['html', 'toc', 'frontmatter'],
+      mode: ["html", "toc", "frontmatter"],
     }),
     mode === 'development' &&
     componentTagger(),
