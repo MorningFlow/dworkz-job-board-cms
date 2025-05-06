@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     markdown({ 
-      mode: ["html", "toc", "frontmatter"],
+      mode: [markdown.Mode.HTML, markdown.Mode.TOC, markdown.Mode.FRONT_MATTER],
     }),
     mode === 'development' &&
     componentTagger(),
