@@ -39,8 +39,8 @@ export async function fetchJobs(): Promise<Job[]> {
       console.log("Processing job:", slug);
       
       // Access the frontmatter data from the module
-      // vite-plugin-markdown exposes data as frontMatter property (camelCase)
-      const data = (module as any).frontMatter || (module as any).attributes || {};
+      // vite-plugin-markdown exposes data as attributes or frontmatter
+      const data = (module as any).attributes || (module as any).frontmatter || {};
       
       // Debug the data structure
       console.log("Job data for", slug, ":", data);
